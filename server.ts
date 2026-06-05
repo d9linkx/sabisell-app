@@ -16,7 +16,7 @@ function getAiClient(): GoogleGenAI {
   if (!aiClient) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      throw new Error("GEMINI_API_KEY environment variable is missing. Please add it in the Secrets panel on AI Studio.");
+      throw new Error("GEMINI_API_KEY environment variable is missing. Please add it in your Vercel project settings.");
     }
     aiClient = new GoogleGenAI({
       apiKey: apiKey,
@@ -238,6 +238,10 @@ function parsePidginLocal(lastInput: string, businessContext: any): any {
 // Native Audio Voice Command Parser Route directly listening through Gemini API
 app.post("/api/audio-command", async (req, res) => {
   const { audio, mimeType, context } = req.body;
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return res.status(400).json({ error: "GEMINI_API_KEY environment variable is missing. Please add it in your Vercel project settings." });
+  }
 
   if (!audio) {
     return res.status(400).json({ error: "No audio data provided." });
@@ -251,8 +255,6 @@ app.post("/api/audio-command", async (req, res) => {
   const businessAddress = context?.businessProfile?.address || "Nigeria Market Terminal";
 
   if (process.env.GEMINI_API_KEY) {
-    try {
-      const ai = getAiClient();
 
       const systemPrompt = `You are the parsing core of 'Sabisell Ledger', acting as a direct voice command assistant and professional business strategist.
 You are listening to an audio recording spoken naturally about a sale, expense, or income.
@@ -338,10 +340,6 @@ Always return a valid JSON response adhering strictly to the responseSchema prov
 
       const parsedData = JSON.parse(response.response.text() || "{}");
       return res.json(parsedData);
-    } catch (err: any) {
-      console.error("Gemini native audio command parsing failed:", err);
-      return res.status(500).json({ error: "Gemini native audio parsing failed", details: err.message });
-    }
   } else {
     return res.status(503).json({ error: "Gemini API key is not configured in secrets." });
   }
@@ -352,6 +350,10 @@ app.post("/api/voice-command", async (req, res) => {
   let parsedData: any = null;
   let geminiSucceeded = false;
   const { text, context } = req.body;
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return res.status(400).json({ error: "GEMINI_API_KEY environment variable is missing. Please add it in your Vercel project settings." });
+  }
 
   if (!text || text.trim() === "") {
     return res.status(400).json({ error: "No voice text or command text provided." });
@@ -365,8 +367,6 @@ app.post("/api/voice-command", async (req, res) => {
   const businessAddress = context?.businessProfile?.address || "Nigeria Market Terminal";
 
   if (process.env.GEMINI_API_KEY) {
-    try {
-      const ai = getAiClient();
       
       const systemPrompt = `You are the parsing core of 'Sabisell Ledger', acting as a direct voice command assistant and professional business strategist. You are dynamically channeled to the profile of this active user:
 - Business Owner (Merchant): ${ownerName}
@@ -395,6 +395,7 @@ ${JSON.stringify(inventory)}
 
 Always return a valid JSON response adhering strictly to the responseSchema provided. Represent all amounts in clean Naira integers.`;
 
+      const ai = getAiClient();
       const response = await ai.models.generateContent({
         model: "gemini-3.5-flash",
         contents: `Parse this dictated voice command or text ledger: "${text}"`,
@@ -438,9 +439,6 @@ Always return a valid JSON response adhering strictly to the responseSchema prov
 
       parsedData = JSON.parse(response.response.text() || "{}");
       geminiSucceeded = true;
-    } catch (err: any) {
-      console.warn("Gemini voice command parsing failed, trying local fallback:", err);
-    }
   }
 
   // Robust Fallback to smart local parser if Gemini is absent or fails
@@ -460,6 +458,10 @@ Always return a valid JSON response adhering strictly to the responseSchema prov
 // Brainstorming & Strategic Business Growth Advisor Chat Route (With duplicate cleaning & transaction automation)
 app.post("/api/gemini/chat", async (req, res) => {
   try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(400).json({ error: "GEMINI_API_KEY environment variable is missing. Please add it in your Vercel project settings." });
+    }
     const { messages, businessContext } = req.body;
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: "Conversation history list is required." });
@@ -546,8 +548,6 @@ Current business status context for reference:
 
     // 1. Try Gemini API first (only if the key exists)
     if (process.env.GEMINI_API_KEY) {
-      try {
-        const ai = getAiClient();
         const response = await ai.models.generateContent({
           model: "gemini-1.5-flash",
           contents: geminiContents,
@@ -596,9 +596,6 @@ Current business status context for reference:
         const rawText = response.response.text() || "";
         const cleanJsonStr = rawText.trim().replace(/^```json\s*/i, "").replace(/```$/, "").trim();
         parsedData = JSON.parse(cleanJsonStr);
-        geminiSucceeded = true;
-      } catch (geminiErr: any) {
-        console.warn("[Gemini Chat API Error - falling back]:", geminiErr);
       }
     }
 
@@ -674,6 +671,10 @@ Current business status context for reference:
 // Automated Weekly Business Report Generation Route
 app.post("/api/generate-weekly-report", async (req, res) => {
   try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(400).json({ error: "GEMINI_API_KEY environment variable is missing. Please add it in your Vercel project settings." });
+    }
     const { inventory, sales, customerPayments } = req.body;
     const ai = getAiClient();
 
@@ -777,6 +778,10 @@ app.get("/api/bank/config", (req, res) => {
 // Parse custom bank alerts, SMS texts, or credit alerts copied directly
 app.post("/api/bank/parse-alert", async (req, res) => {
   try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(400).json({ error: "GEMINI_API_KEY environment variable is missing. Please add it in your Vercel project settings." });
+    }
     const { alertText } = req.body;
     if (!alertText || alertText.trim() === "") {
       return res.status(400).json({ error: "Paste a bank alert to parse." });
