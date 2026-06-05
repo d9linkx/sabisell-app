@@ -127,21 +127,21 @@ export interface OrganizationTerms {
 export function getOrganizationTerminology(category: string, isOrg: boolean): OrganizationTerms {
   if (!isOrg) {
     return {
-      stocks: "Stocks / Inventory",
-      stockItem: "Stock Item",
-      productService: "Product & Services",
-      sales: "Sales Book",
-      sale: "Sale Transaction",
-      totalSales: "Total Money Collected",
-      customer: "Customer",
-      customers: "Shop Customers",
-      debt: "Customer Debt (Credit)",
-      debtTitle: "Customers Owed Ledger",
-      supplier: "Product Supplier",
-      restocking: "Add Stock",
-      sellItem: "Sell / Cash Out Item",
-      costPrice: "Cost Price (Buying Cost)",
-      sellingPrice: "Selling Price (Sales Value)"
+      stocks: "My Items",
+      stockItem: "Item",
+      productService: "Work & Things",
+      sales: "Sales List",
+      sale: "Record of Sale",
+      totalSales: "Cash Made",
+      customer: "Client",
+      customers: "My Customers",
+      debt: "Money Owed",
+      debtTitle: "Debt Book",
+      supplier: "Who I Buy From",
+      restocking: "Add New Items",
+      sellItem: "Sell Item",
+      costPrice: "What I Paid",
+      sellingPrice: "Price to Sell"
     };
   }
 
@@ -222,5 +222,3 @@ export interface PriceHistory {
   sellingPrice: number;
   timestamp: string; // ISO string or short date
 }
-
-

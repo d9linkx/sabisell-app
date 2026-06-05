@@ -826,14 +826,14 @@ export default function App() {
   };
 
   const navTabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-    { id: 'inventory', label: 'Stock', icon: <Package className="h-4 w-4" /> },
-    { id: 'sales', label: 'Sales & Debts', icon: <ShoppingCart className="h-4 w-4" /> },
-    { id: 'voice', label: 'Voice Controller', icon: <Mic className="h-4 w-4 text-green-600 animate-pulse" /> },
-    { id: 'chat', label: 'Trade Strategy Chat', icon: <HelpCircle className="h-4 w-4" /> },
-    { id: 'bank', label: 'Direct Bank Accounts', icon: <Landmark className="h-4 w-4" /> },
-    { id: 'contacts', label: 'Contacts Connect', icon: <Users className="h-4 w-4" /> },
-    { id: 'settings', label: 'SME Settings', icon: <Settings className="h-4 w-4" /> },
+    { id: 'dashboard', label: 'Home', icon: <LayoutDashboard className="h-4 w-4" /> },
+    { id: 'inventory', label: 'My Items', icon: <Package className="h-4 w-4" /> },
+    { id: 'sales', label: 'Money & Owed', icon: <ShoppingCart className="h-4 w-4" /> },
+    { id: 'voice', label: 'Talk to App', icon: <Mic className="h-4 w-4 text-green-600 animate-pulse" /> },
+    { id: 'chat', label: 'Ask for Help', icon: <HelpCircle className="h-4 w-4" /> },
+    { id: 'bank', label: 'Bank Info', icon: <Landmark className="h-4 w-4" /> },
+    { id: 'contacts', label: 'Customers', icon: <Users className="h-4 w-4" /> },
+    { id: 'settings', label: 'Settings', icon: <Settings className="h-4 w-4" /> },
   ];
 
   if (activeTab === 'public-catalog') {
@@ -893,7 +893,7 @@ export default function App() {
             <div 
               className="flex items-center gap-2.5 cursor-pointer hover:opacity-85 transition-opacity" 
               onClick={() => setActiveTab('dashboard')}
-              title="Return to Dashboard"
+              title="Go Home"
             >
               <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-xs overflow-hidden shrink-0">
                 {businessProfile.logoUrl ? (
@@ -906,7 +906,7 @@ export default function App() {
               </div>
               <div>
                 <span className="font-display font-medium text-base block tracking-tight text-ash-900">Sabisell</span>
-                <span className="text-[10px] text-ash-400 font-normal uppercase tracking-widest block font-sans">SME COMMAND CENTER</span>
+                <span className="text-[10px] text-ash-400 font-normal uppercase tracking-widest block font-sans">Shop Control</span>
               </div>
             </div>
           </div>
@@ -940,11 +940,11 @@ export default function App() {
         {/* User identification badge / Live Syncing banner in Professional Polish theme */}
         <div className="hidden md:block border-t border-ash-100 pt-4 space-y-2 mt-4">
           <div className="bg-ash-fb p-3 px-3 rounded-lg border border-ash-100 shadow-xs">
-            <p className="text-[9px] text-ash-400 uppercase tracking-wider font-semibold mb-1">Business active</p>
+            <p className="text-[9px] text-ash-400 uppercase tracking-wider font-semibold mb-1">Shop Open</p>
             <p className="text-xs font-normal truncate text-ash-800">{businessProfile.businessName}</p>
             <div className="flex items-center gap-1.5 mt-2">
               <div className="w-2 h-2 rounded-full bg-mint-400 animate-pulse"></div>
-              <span className="text-[10px] text-ash-500 font-light font-mono">Cloud Synced</span>
+              <span className="text-[10px] text-ash-500 font-light font-mono">Records Safe</span>
             </div>
             
             <button
@@ -961,7 +961,7 @@ export default function App() {
               className="mt-3.5 w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl border border-red-200/55 bg-red-50 hover:bg-red-100 text-[10px] font-normal text-red-650 hover:text-red-705 cursor-pointer transition-all"
             >
               <LogOut className="h-3 w-3" />
-              <span>Sign Out Of Ledger</span>
+              <span>Log Out</span>
             </button>
           </div>
         </div>
@@ -975,7 +975,7 @@ export default function App() {
             <div 
               className="lg:hidden flex items-center gap-2 mr-1 cursor-pointer hover:opacity-85 transition-opacity" 
               onClick={() => setActiveTab('dashboard')}
-              title="Return to Dashboard"
+              title="Go Home"
             >
               <div className="w-7 h-7 rounded-lg flex items-center justify-center shadow-xs shrink-0 overflow-hidden">
                 {businessProfile.logoUrl ? (
@@ -990,14 +990,14 @@ export default function App() {
             </div>
 
             <h1 className="text-xs sm:text-sm tracking-tight text-ash-700">
-              Morning, <span className="font-normal text-ash-900">{ownerProfile.fullName ? ownerProfile.fullName.trim().split(' ')[0] : 'Oga'}</span>
+              Hello, <span className="font-normal text-ash-900">{ownerProfile.fullName ? ownerProfile.fullName.trim().split(' ')[0] : 'Oga'}</span>
             </h1>
             <div 
               onClick={() => setActiveTab('voice')}
               className="flex items-center gap-2 px-2.5 py-1 bg-ash-50 hover:bg-ash-100/80 rounded-full cursor-pointer transition-all border border-ash-150 shrink-0"
             >
               <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-ping"></div>
-              <span className="text-[10px] font-normal text-ash-600 sm:inline hidden">Voice active</span>
+              <span className="text-[10px] font-normal text-ash-600 sm:inline hidden">Voice On</span>
               <Mic className="h-3 w-3 text-ash-400 animate-pulse" />
             </div>
           </div>
@@ -1055,7 +1055,7 @@ export default function App() {
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between pb-3 border-b border-ash-100/50">
                 <span className="text-[10px] text-ash-400 font-bold uppercase tracking-widest">
-                  Sabisell Menu
+                  App Menu
                 </span>
                 <button 
                   onClick={() => setMobileMenuOpen(false)}
@@ -1196,10 +1196,10 @@ export default function App() {
       {/* Fixed bottom navigation bar (Beautifully anchored, Glass-morphic, High-contrast in Light/Dark Mode) */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-ash-200/50 dark:border-ash-100/30 shadow-[0_-4px_20px_rgba(0,0,0,0.12)] px-4 py-2.5 pb-4.5 flex justify-around items-center z-50">
         {[
-          { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-5 w-5 font-light" /> },
-          { id: 'inventory', label: 'Stock', icon: <Package className="h-5 w-5 font-light" /> },
-          { id: 'sales', label: 'Sales & Debts', icon: <ShoppingCart className="h-5 w-5 font-light" /> },
-          { id: 'chat', label: 'Sabi AI', icon: <Sparkles className="h-5 w-5" /> },
+          { id: 'dashboard', label: 'Home', icon: <LayoutDashboard className="h-5 w-5 font-light" /> },
+          { id: 'inventory', label: 'Items', icon: <Package className="h-5 w-5 font-light" /> },
+          { id: 'sales', label: 'Money', icon: <ShoppingCart className="h-5 w-5 font-light" /> },
+          { id: 'chat', label: 'Help', icon: <Sparkles className="h-5 w-5" /> },
         ].map(tab => {
           const isActive = activeTab === tab.id;
           const isAI = tab.id === 'chat';
