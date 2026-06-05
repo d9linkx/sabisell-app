@@ -41,7 +41,7 @@ export default function BrainstormChat({ products, sales, onApplyParsedAction, o
     {
       id: '1',
       sender: 'assistant',
-      text: "Well done Oga! I be Sabi AI, your live trade strategist companion. Ask me anything about your current margins, sales performance, debts, or customer analytics, or speak to me directly to register items and sales on the fly!",
+      text: "Oga Boss, you are welcome! I be your Sabi AI, your most loyal strategist. I don look your books well-well. Ask me anything about your sales, who dey owe you, or how to grow your profit. I dey here to help you register items sharp-sharp!",
       timestamp: new Date().toISOString()
     }
   ]);
@@ -151,10 +151,31 @@ export default function BrainstormChat({ products, sales, onApplyParsedAction, o
     // Context details to help Gemini matches
     const totalSales = sales.reduce((sum, s) => sum + s.totalAmount, 0);
     const outstandingDebts = sales.reduce((sum, s) => sum + s.balanceDebt, 0);
+
+    // Standardized enriched context for better AI intelligence
+    const recentSalesSummary = sales.slice(0, 10).map(s => ({
+      item: s.productName,
+      qty: s.quantity,
+      total: s.totalAmount,
+      customer: s.customerName,
+      debt: s.balanceDebt,
+      date: s.timestamp
+    }));
+
+    const prodSales: Record<string, number> = {};
+    sales.forEach(s => prodSales[s.productName] = (prodSales[s.productName] || 0) + s.quantity);
+    
+    const topProducts = [...products]
+      .sort((a, b) => (prodSales[b.name] || 0) - (prodSales[a.name] || 0))
+      .slice(0, 5)
+      .map(p => ({ name: p.name, stock: p.quantity, price: p.sellingPrice }));
+
     const businessContext = {
-      inventoryLength: products.length,
+      inventory: products.map(p => ({ name: p.name, stock: p.quantity, price: p.sellingPrice })),
       outstandingDebts,
       totalSales,
+      recentSales: recentSalesSummary,
+      topProducts,
       ownerProfile,
       businessProfile
     };
@@ -295,9 +316,9 @@ export default function BrainstormChat({ products, sales, onApplyParsedAction, o
         };
 
         if (isPidgin) {
-          feedback = `Roger that! Sabi Assistant don record say you restock ${qty} unit(s) of "${productName}" (Buying rate na ₦${costPrice.toLocaleString()} each, sell value na ₦${sellingPrice.toLocaleString()}).`;
+          feedback = `Oga Boss, I don record am sharp-sharp! You restock ${qty} unit(s) of "${productName}" (Buying rate na ₦${costPrice.toLocaleString()}, we go sell am for ₦${sellingPrice.toLocaleString()}). Your store dey grow!`;
         } else {
-          feedback = `Done! Sabi Assistant has logged a restock of ${qty} unit(s) for "${productName}" in your directory. Cost: ₦${costPrice.toLocaleString()}, Selling Rate: ₦${sellingPrice.toLocaleString()}.`;
+          feedback = `Yes Oga! I have successfully logged the restock of ${qty} unit(s) for "${productName}". Buying cost is ₦${costPrice.toLocaleString()} and selling price is ₦${sellingPrice.toLocaleString()}. I'm keeping your records safe.`;
         }
 
       } else if (text.includes("sold") || text.includes("sell") || text.includes("customer")) {
@@ -334,9 +355,9 @@ export default function BrainstormChat({ products, sales, onApplyParsedAction, o
         };
 
         if (isPidgin) {
-          feedback = `Sharp! Cashbook entry processed: sold ${qty} "${productName}" to ${customerName}. Collected: ₦${amountPaid.toLocaleString()} off ₦${totalAmount.toLocaleString()} total bill.`;
+          feedback = `Sharp Oga! I don enter the sale for your book: ${qty} "${productName}" for ${customerName}. You collect ₦${amountPaid.toLocaleString()}, remaining ₦${(totalAmount - amountPaid).toLocaleString()} debt recorded. We go get the money!`;
         } else {
-          feedback = `Sale booked! Sold ${qty} piece(s) of "${productName}" to client ${customerName}. Paid: ₦${amountPaid.toLocaleString()}/${totalAmount.toLocaleString()}`;
+          feedback = `Well done Oga! Sale recorded: ${qty} unit(s) of "${productName}" to ${customerName}. Cash received: ₦${amountPaid.toLocaleString()} out of ₦${totalAmount.toLocaleString()}. I have updated the ledger.`;
         }
 
       } else if (text.includes("pay") || text.includes("clear") || text.includes("repay")) {
@@ -355,9 +376,9 @@ export default function BrainstormChat({ products, sales, onApplyParsedAction, o
         };
 
         if (isPidgin) {
-          feedback = `Well done! Sabi Assistant don log say ${customerName} pay ₦${amountPaidStr.toLocaleString()} to clear part of debt!`;
+          feedback = `Well done Oga! I don enter am: ${customerName} just pay ₦${amountPaidStr.toLocaleString()} to clear debt. Money dey enter hand!`;
         } else {
-          feedback = `Excellent! Sabi Assistant has logged that ${customerName} paid ₦${amountPaidStr.toLocaleString()} to reduce their outstanding debt.`;
+          feedback = `Excellent Oga Boss! I have logged that ${customerName} paid ₦${amountPaidStr.toLocaleString()} to reduce their balance. Good progress on your debt book!`;
         }
 
       } else {
