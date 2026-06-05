@@ -4,7 +4,6 @@ import {
   databases, 
   ID, 
   getAppwriteStatus, 
-  applyAppwriteConfig,
   APPWRITE_DATABASE_ID,
   APPWRITE_USERS_COLLECTION_ID,
   setAppwriteSession
@@ -20,13 +19,8 @@ import {
   Eye, 
   EyeOff, 
   ArrowRight, 
-  Award,
   AlertCircle,
-  Database,
-  HelpCircle,
-  Copy,
   CheckCircle2,
-  Settings,
   X
 } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -37,16 +31,6 @@ interface AuthScreenProps {
 }
 
 export default function AuthScreen({ onAuthSuccess, onBackToHome }: AuthScreenProps) {
-  const appwriteStatus = getAppwriteStatus();
-
-  // Onboarding / Config states
-  const [configEndpoint, setConfigEndpoint] = useState(appwriteStatus.endpoint);
-  const [configProjectId, setConfigProjectId] = useState(appwriteStatus.projectId);
-  const [configDatabaseId, setConfigDatabaseId] = useState(appwriteStatus.databaseId);
-  const [configUsersCol, setConfigUsersCol] = useState(appwriteStatus.usersCollection);
-  const [configProductsCol, setConfigProductsCol] = useState(appwriteStatus.productsCollection);
-  const [configSalesCol, setConfigSalesCol] = useState(appwriteStatus.salesCollection);
-  const [copiedText, setCopiedText] = useState<string | null>(null);
 
   // Authentication states
   const [isSignUp, setIsSignUp] = useState(false);
@@ -70,28 +54,6 @@ export default function AuthScreen({ onAuthSuccess, onBackToHome }: AuthScreenPr
     const split = name.trim().split(/\s+/);
     if (split.length === 1) return split[0].slice(0, 2).toUpperCase();
     return (split[0][0] + split[split.length - 1][0]).toUpperCase();
-  };
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedText(text);
-    setTimeout(() => setCopiedText(null), 2000);
-  };
-
-  const handleSaveConfig = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!configProjectId.trim()) {
-      setErrorMsg('Appwrite Project ID cannot be empty');
-      return;
-    }
-    applyAppwriteConfig({
-      endpoint: configEndpoint || 'https://cloud.appwrite.io/v1',
-      projectId: configProjectId.trim(),
-      databaseId: configDatabaseId || 'sabisell_db',
-      usersCol: configUsersCol || 'users',
-      productsCol: configProductsCol || 'products',
-      salesCol: configSalesCol || 'sales'
-    });
   };
 
   const handleAuthSubmit = async (e: React.FormEvent) => {
@@ -280,227 +242,6 @@ export default function AuthScreen({ onAuthSuccess, onBackToHome }: AuthScreenPr
       setLoading(false);
     }
   };
-
-  // If Appwrite is not configured yet, show the Guide step-by-step onboarding
-  if (!appwriteStatus.isConfigured) {
-    return (
-      <div className="min-h-screen bg-ash-50 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8 font-sans font-light">
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }} 
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="max-w-2xl w-full bg-white rounded-3xl p-6 sm:p-8 border border-ash-200 shadow-lg grid grid-cols-1 md:grid-cols-12 gap-6 divide-y md:divide-y-0 md:divide-x divide-ash-100"
-        >
-          {/* Left instructions block */}
-          <div className="md:col-span-7 pr-0 md:pr-4 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="h-9 w-9 bg-mint-400 rounded-xl flex items-center justify-center text-white">
-                <Database className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-display font-medium text-ash-900">Appwrite Setup Guide</h3>
-                <span className="text-[10px] text-ash-400 font-normal uppercase tracking-widest block">SABISELL DATABASE CONFIGURATION</span>
-              </div>
-            </div>
-
-            <div className="space-y-4 text-xs text-ash-600 leading-relaxed">
-              <p>
-                Sabisell has migrated its backend ledger to **Appwrite Database and Authentication**! To power your store ledger books, please execute the following setup on your cloud or local Appwrite Console:
-              </p>
-
-              <div className="space-y-3.5 pt-2">
-                {/* Step 1 */}
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-ash-100 text-ash-700 font-bold flex items-center justify-center text-[10px]">1</span>
-                    <strong className="text-ash-800 text-xs text-mint-700 uppercase tracking-wide">Create Appwrite Web Platform (Yes, use Vercel!)</strong>
-                  </div>
-                  <p className="pl-7 text-ash-500 text-[11.5px] leading-relaxed">
-                    Since you host on **Vercel**, go to your Appwrite Dashboard &gt; **Integrations &gt; Add Platform &gt; Choose Web App**. 
-                    <br />
-                    Add these hostnames to the dashboard field:
-                    <span className="block mt-1 space-y-1 font-mono text-[10px]">
-                      <span className="block">- 🌐 Production Host: <code className="bg-mint-50/50 border border-mint-200 text-mint-700 px-1 rounded select-all font-semibold">sabisell2.vercel.app</code></span>
-                      <span className="block">- 💻 Local Hostname: <code className="bg-ash-fb border px-1 rounded select-all text-ash-700">localhost</code></span>
-                      <span className="block">- 👁️ Live Preview: <code className="bg-ash-fb border px-1 rounded select-all text-ash-700">{typeof window !== 'undefined' ? window.location.hostname : 'AIS-Dev-Preview'}</code></span>
-                    </span>
-                  </p>
-                </div>
-
-                {/* Step 2 */}
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-ash-100 text-ash-700 font-bold flex items-center justify-center text-[10px]">2</span>
-                    <strong className="text-ash-800 text-xs">Enable Email Password Auth</strong>
-                  </div>
-                  <p className="pl-7 text-ash-500 text-[11px]">
-                    Under **Auth &gt; Settings &gt; Auth Methods**, ensure that the **Email/Password** provider toggle switch is active.
-                  </p>
-                </div>
-
-                {/* Step 3 */}
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-ash-100 text-ash-700 font-bold flex items-center justify-center text-[10px]">3</span>
-                    <strong className="text-ash-800 text-xs">Database & Collections Configuration</strong>
-                  </div>
-                  <p className="pl-7 text-ash-500 text-[11px] space-y-2">
-                    <span>Create a Database named <strong className="text-ash-700">sabisell_db</strong>. Then, create the following **3 Collections** with Document Permissions set to <code className="font-mono text-[10px] bg-ash-50 p-0.5 border border-ash-200 text-ash-800 rounded">"Any" (or "Users") can read/write</code>:</span>
-                    
-                    <span className="block mt-1 pt-1 border-t border-dashed border-ash-100 space-y-1">
-                      <span className="flex items-center justify-between text-[11px]">
-                        <span>📂 Collection <strong className="text-ash-750 font-mono">users</strong> (User Profiles):</span>
-                        <button onClick={() => copyToClipboard('users')} className="text-mint-600 hover:text-mint-700 flex items-center gap-0.5 cursor-pointer">
-                          {copiedText === 'users' ? <CheckCircle2 className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                        </button>
-                      </span>
-                      <span className="block text-[10px] text-ash-400 leading-tight pl-2 space-y-1 bg-ash-50 p-1.5 rounded border border-ash-200/50">
-                        <span className="block font-semibold text-ash-600 border-b pb-0.5 mb-1 text-[9.5px]">Create Attributes:</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">fullName</strong> (String, size 256, Required)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">email</strong> (String, size 256, Required)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">avatarText</strong> (String, size 10, Required)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">businessName</strong> (String, size 256, Required)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">category</strong> (String, size 100, Required)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">phone</strong> (String, size 50, Optional/Nullable)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">address</strong> (String, size 1000, Optional/Nullable)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">currency</strong> (String, size 10, Optional/Nullable)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">whatsappGreeting</strong> (String, size 1000, Optional/Nullable)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">whatsappReminderSuffix</strong> (String, size 1000, Optional/Nullable)</span>
-                        <span className="block">- <strong className="font-mono bg-white px-0.5">updatedAt</strong> (String, size 100, Optional/Nullable)</span>
-                      </span>
-                    </span>
-
-                    <span className="block mt-1.5 space-y-1">
-                      <span className="flex items-center justify-between text-[11px]">
-                        <span>📂 Collection <strong className="text-ash-750 font-mono">products</strong> (Inventory):</span>
-                        <button onClick={() => copyToClipboard('products')} className="text-mint-600 hover:text-mint-700 flex items-center gap-0.5 cursor-pointer">
-                          {copiedText === 'products' ? <CheckCircle2 className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                        </button>
-                      </span>
-                      <span className="block text-[10px] text-ash-400 leading-tight pl-2">
-                        Attributes: <code className="bg-ash-fb border rounded px-1">userId</code> (string), <code className="bg-ash-fb border rounded px-1">name</code> (string), <code className="bg-ash-fb border rounded px-1">sku</code> (string, optional), <code className="bg-ash-fb border rounded px-1">stockLevel</code> (integer), <code className="bg-ash-fb border rounded px-1">buyingPrice</code> (float), <code className="bg-ash-fb border rounded px-1">sellingPrice</code> (float), <code className="bg-ash-fb border rounded px-1">category</code> (string, optional), <code className="bg-ash-fb border rounded px-1">updatedAt</code> (string, optional).
-                      </span>
-                    </span>
-
-                    <span className="block mt-1.5 space-y-1">
-                      <span className="flex items-center justify-between text-[11px]">
-                        <span>📂 Collection <strong className="text-ash-750 font-mono">sales</strong> (Sales Logs):</span>
-                        <button onClick={() => copyToClipboard('sales')} className="text-mint-600 hover:text-mint-700 flex items-center gap-0.5 cursor-pointer">
-                          {copiedText === 'sales' ? <CheckCircle2 className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                        </button>
-                      </span>
-                      <span className="block text-[10px] text-ash-400 leading-tight pl-2">
-                        Attributes: <code className="bg-ash-fb border rounded px-1">userId</code> (string), <code className="bg-ash-fb border rounded px-1">productId</code> (string), <code className="bg-ash-fb border rounded px-1">productName</code> (string), <code className="bg-ash-fb border rounded px-1">quantity</code> (integer), <code className="bg-ash-fb border rounded px-1">totalAmount</code> (float), <code className="bg-ash-fb border rounded px-1">amountPaid</code> (float), <code className="bg-ash-fb border rounded px-1">balanceDebt</code> (float), <code className="bg-ash-fb border rounded px-1">customerName</code> (string), <code className="bg-ash-fb border rounded px-1">customerPhone</code> (string, optional), <code className="bg-ash-fb border rounded px-1">paymentStatus</code> (string), <code className="bg-ash-fb border rounded px-1">timestamp</code> (string).
-                      </span>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right form block */}
-          <div className="md:col-span-5 pl-0 md:pl-4 pt-4 md:pt-0 space-y-5">
-            <div>
-              <h4 className="text-sm font-semibold text-ash-900 flex items-center gap-1.5">
-                <Settings className="h-4 w-4 text-mint-500 animate-spin-slow" />
-                Connect Storefront
-              </h4>
-              <p className="text-[10px] text-ash-450 leading-normal">
-                Input your credentials below to test instantly inside your developer browser sandbox. You can also specify these configurations in your environment variables.
-              </p>
-            </div>
-
-            <form onSubmit={handleSaveConfig} className="space-y-3">
-              <div className="space-y-1">
-                <label className="text-[10.5px] font-medium text-ash-650 block">Appwrite Endpoint</label>
-                <input
-                  type="text"
-                  required
-                  value={configEndpoint}
-                  onChange={(e) => setConfigEndpoint(e.target.value)}
-                  placeholder="https://cloud.appwrite.io/v1"
-                  className="w-full bg-ash-fb border border-ash-200 rounded-xl px-3 py-2 text-[11px] focus:outline-none focus:border-mint-450 font-mono"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10.5px] font-medium text-ash-650 block">Appwrite Project ID</label>
-                <input
-                  type="text"
-                  required
-                  value={configProjectId}
-                  onChange={(e) => setConfigProjectId(e.target.value)}
-                  placeholder="Insert Project ID"
-                  className="w-full bg-ash-fb border border-ash-200 rounded-xl px-3 py-2 text-[11px] focus:outline-none focus:border-mint-450 font-mono"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10.5px] font-medium text-ash-650 block">Database ID</label>
-                <input
-                  type="text"
-                  required
-                  value={configDatabaseId}
-                  onChange={(e) => setConfigDatabaseId(e.target.value)}
-                  placeholder="sabisell_db"
-                  className="w-full bg-ash-fb border border-ash-200 rounded-xl px-3 py-2 text-[11px] focus:outline-none focus:border-mint-450 font-mono"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10.5px] font-medium text-ash-650 block">Users Collection ID</label>
-                <input
-                  type="text"
-                  required
-                  value={configUsersCol}
-                  onChange={(e) => setConfigUsersCol(e.target.value)}
-                  placeholder="users"
-                  className="w-full bg-ash-fb border border-ash-200 rounded-xl px-3 py-2 text-[11px] focus:outline-none focus:border-mint-450 font-mono"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10.5px] font-medium text-ash-650 block">Products Collection ID</label>
-                <input
-                  type="text"
-                  required
-                  value={configProductsCol}
-                  onChange={(e) => setConfigProductsCol(e.target.value)}
-                  placeholder="products"
-                  className="w-full bg-ash-fb border border-ash-200 rounded-xl px-3 py-2 text-[11px] focus:outline-none focus:border-mint-450 font-mono"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10.5px] font-medium text-ash-650 block">Sales Collection ID</label>
-                <input
-                  type="text"
-                  required
-                  value={configSalesCol}
-                  onChange={(e) => setConfigSalesCol(e.target.value)}
-                  placeholder="sales"
-                  className="w-full bg-ash-fb border border-ash-200 rounded-xl px-3 py-2 text-[11px] focus:outline-none focus:border-mint-450 font-mono"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-mint-400 hover:bg-mint-500 text-white font-normal text-xs py-2.5 rounded-xl cursor-pointer transition-all flex items-center justify-center gap-1.5"
-              >
-                <span>Save Config & Auto Mount</span>
-                <ArrowRight className="h-3 w-3" />
-              </button>
-            </form>
-
-            <div className="bg-ash-50 p-3 rounded-2xl border border-ash-100 text-[10px] text-ash-500 leading-normal font-sans">
-              ℹ️ **Tip:** To save globally into production files, write these exact credentials as environment variables starting with <code className="font-mono text-ash-700 font-normal bg-ash-fb p-0.5 border border-ash-200 rounded">VITE_APPWRITE_</code> in your project repository keys list.
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
 
   // standard auth screens using Appwrite
   return (
