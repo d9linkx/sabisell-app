@@ -1,4 +1,4 @@
-import { Client, Account, Databases, ID, Query } from 'appwrite';
+import { Client, Account, Databases, ID, Query, Permission, Role } from 'appwrite';
 
 // Read configuration from environment variables or saved local settings (useful for live preview setup!)
 const metaEnv = (import.meta as any).env || {};
@@ -55,4 +55,4 @@ export function clearAppwriteSession() {
   } catch (_) {}
 }
 
-export { ID, Query };
+export { ID, Query, Permission, Role };

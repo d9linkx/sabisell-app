@@ -35,6 +35,8 @@ import {
   databases, 
   ID, 
   Query, 
+  Permission,
+  Role,
   client,
   APPWRITE_DATABASE_ID,
   APPWRITE_USERS_COLLECTION_ID,
@@ -702,7 +704,12 @@ export default function App() {
           customerPhone: '',
           paymentStatus: newSale.paymentStatus,
           timestamp: saleDate
-        }
+        },
+        [
+          Permission.read(Role.user(user.$id)),
+          Permission.update(Role.user(user.$id)),
+          Permission.delete(Role.user(user.$id))
+        ]
       );
 
       // Swap temporary ID with real Appwrite ID
@@ -827,9 +834,9 @@ export default function App() {
 
   const navTabs = [
     { id: 'dashboard', label: 'Home', icon: <LayoutDashboard className="h-4 w-4" /> },
-    { id: 'inventory', label: 'My Items', icon: <Package className="h-4 w-4" /> },
-    { id: 'sales', label: 'Money & Owed', icon: <ShoppingCart className="h-4 w-4" /> },
-    { id: 'voice', label: 'Talk to App', icon: <Mic className="h-4 w-4 text-green-600 animate-pulse" /> },
+    { id: 'inventory', label: 'My Stock', icon: <Package className="h-4 w-4" /> },
+    { id: 'sales', label: 'Sales', icon: <ShoppingCart className="h-4 w-4" /> },
+    { id: 'voice', label: 'Voice Control', icon: <Mic className="h-4 w-4 text-green-600 animate-pulse" /> },
     { id: 'chat', label: 'Ask for Help', icon: <HelpCircle className="h-4 w-4" /> },
     { id: 'bank', label: 'Bank Info', icon: <Landmark className="h-4 w-4" /> },
     { id: 'contacts', label: 'Customers', icon: <Users className="h-4 w-4" /> },
@@ -906,7 +913,7 @@ export default function App() {
               </div>
               <div>
                 <span className="font-display font-medium text-base block tracking-tight text-ash-900">Sabisell</span>
-                <span className="text-[10px] text-ash-400 font-normal uppercase tracking-widest block font-sans">Shop Control</span>
+                <span className="text-[10px] text-ash-400 font-normal uppercase tracking-widest block font-sans">Control Your Sales</span>
               </div>
             </div>
           </div>
