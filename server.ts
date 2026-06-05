@@ -336,7 +336,7 @@ Always return a valid JSON response adhering strictly to the responseSchema prov
         }
       });
 
-      const parsedData = JSON.parse(response.text || "{}");
+      const parsedData = JSON.parse(response.response.text() || "{}");
       return res.json(parsedData);
     } catch (err: any) {
       console.error("Gemini native audio command parsing failed:", err);
@@ -436,7 +436,7 @@ Always return a valid JSON response adhering strictly to the responseSchema prov
         }
       });
 
-      parsedData = JSON.parse(response.text || "{}");
+      parsedData = JSON.parse(response.response.text() || "{}");
       geminiSucceeded = true;
     } catch (err: any) {
       console.warn("Gemini voice command parsing failed, trying local fallback:", err);
@@ -593,7 +593,7 @@ Current business status context for reference:
           }
         });
 
-        const rawText = response.text || "";
+        const rawText = response.response.text() || "";
         const cleanJsonStr = rawText.trim().replace(/^```json\s*/i, "").replace(/```$/, "").trim();
         parsedData = JSON.parse(cleanJsonStr);
         geminiSucceeded = true;
@@ -722,7 +722,7 @@ Adhere strictly to the responseSchema provided. Translate all logic elements to 
       }
     });
 
-    const parsed = JSON.parse(response.text || "{}");
+    const parsed = JSON.parse(response.response.text() || "{}");
     res.json(parsed);
   } catch (err: any) {
     console.warn("Weekly report generation Gemini call failed, generating localized mechanical fallback report:", err);
@@ -811,7 +811,7 @@ app.post("/api/bank/parse-alert", async (req, res) => {
       }
     });
 
-    const parsed = JSON.parse(response.text || "{}");
+    const parsed = JSON.parse(response.response.text() || "{}");
     res.json(parsed);
   } catch (err: any) {
     console.warn("Gemini bank alert parser failed, falling back to local regex extraction:", err);

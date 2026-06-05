@@ -551,7 +551,12 @@ export default function App() {
           sellingPrice: newProd.sellingPrice,
           category: newProd.category || 'General',
           updatedAt: productDate
-        }
+        },
+        [
+          Permission.read(Role.user(user.$id)),
+          Permission.update(Role.user(user.$id)),
+          Permission.delete(Role.user(user.$id))
+        ]
       );
       
       // Swap local tempId with actual server ID

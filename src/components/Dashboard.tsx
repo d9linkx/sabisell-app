@@ -349,10 +349,13 @@ export default function Dashboard({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inventory: filteredProducts, sales: filteredSales, customerPayments: [] }),
       });
+      
+      const data = await res.json().catch(() => ({}));
+      
       if (!res.ok) {
-        throw new Error('Could not compile AI analysis. Please verify your GEMINI_API_KEY is active.');
+        throw new Error(data.error || 'Could not compile AI analysis. Please verify your GEMINI_API_KEY is active.');
       }
-      const data = await res.json();
+
       setReportData(data);
     } catch (err: any) {
       setReportError(err.message || 'Error occurred while talking with Gemini Advisor.');
