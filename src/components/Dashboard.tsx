@@ -374,7 +374,7 @@ export default function Dashboard({
         <div className="relative z-10 max-w-2xl space-y-4">
           <div className="inline-flex items-center gap-1.5 bg-pink-50/80 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 font-semibold text-[10px] sm:text-xs px-3.5 py-1.5 rounded-full border border-pink-200/50 dark:border-pink-850/30">
             <SabisellLogo className="h-3.5 w-3.5 text-pink-500 animate-pulse" />
-            {isOrg ? "Sabisell Organization Dashboard" : "Sabisell SME Command Center Dashboard"}
+            {isOrg ? "Sabisell Dashboard" : "Shop Home"}
           </div>
           <h1 className="text-xl sm:text-3xl md:text-4xl font-display font-semibold text-ash-900 tracking-tight leading-tight">
             {isOrg ? (
@@ -383,7 +383,7 @@ export default function Dashboard({
               </>
             ) : (
               <>
-                Seamless Market Trading <br className="hidden sm:inline" /> & <span className="text-pink-600 dark:text-pink-400 font-bold">Smart SME Accounting</span>
+                Manage Your <br className="hidden sm:inline" /> <span className="text-pink-600 dark:text-pink-400 font-bold">Sales & Items</span>
               </>
             )}
           </h1>
@@ -418,7 +418,7 @@ export default function Dashboard({
             <Filter className="h-4 w-4 text-mint-500" />
           </div>
           <div className="min-w-0">
-            <h4 className="text-xs sm:text-sm font-semibold text-ash-800 font-display truncate">Store Filters</h4>
+            <h4 className="text-xs sm:text-sm font-semibold text-ash-800 font-display truncate">Show Only</h4>
             <div className="hidden sm:flex items-center gap-1.5 text-[10px] text-ash-400 font-light mt-0.5">
               <span>{filteredSales.length} sales</span>
               <span>•</span>
@@ -468,7 +468,7 @@ export default function Dashboard({
           >
             <Filter className="h-3.5 w-3.5 shrink-0 text-current" />
             <span className="font-medium text-[11px] sm:text-xs">
-              {isOrg ? "Filter Records" : "Filter Ledger"}
+              {isOrg ? "Choose Records" : "Filter List"}
             </span>
             <ChevronDown className={`h-3.5 w-3.5 shrink-0 transition-transform duration-200 ${showFiltersMenu ? 'rotate-180' : ''}`} />
           </button>
@@ -709,7 +709,7 @@ export default function Dashboard({
         <div className="bg-white rounded-2xl p-5 border border-ash-200 shadow-xs relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <span className="text-ash-400 text-xs font-normal uppercase tracking-wider">
-              {isOrg ? "Total Money Received" : "Total Trading Sales"}
+              {isOrg ? "Money Received" : "Total Sales"}
             </span>
             <div className="bg-mint-50 text-mint-600 p-2 rounded-xl border border-mint-100">
               <TrendingUp className="h-4 w-4" />
@@ -728,7 +728,7 @@ export default function Dashboard({
         <div className="bg-white rounded-2xl p-5 border border-ash-200 shadow-xs relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <span className="text-ash-400 text-xs font-normal uppercase tracking-wider">
-              {isOrg ? "Confirmed Payments" : "Cash Collected"}
+              {isOrg ? "Confirmed Pay" : "Money in Hand"}
             </span>
             <div className="bg-ash-50 text-ash-700 p-2 rounded-xl border border-ash-100">
               <DollarSign className="h-4 w-4" />
@@ -747,7 +747,7 @@ export default function Dashboard({
         <div className="bg-white rounded-2xl p-5 border border-ash-200 shadow-xs relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <span className="text-ash-400 text-xs font-normal uppercase tracking-wider">
-              {isOrg ? "Outstanding Payments" : "Outstanding Debts"}
+              {isOrg ? "Money Owed" : "Money Owed to Me"}
             </span>
             <div className="bg-red-50 text-red-600 p-2 rounded-xl border border-red-100">
               <Users className="h-4 w-4" />
@@ -766,7 +766,7 @@ export default function Dashboard({
         <div className="bg-white rounded-2xl p-5 border border-ash-200 shadow-xs relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <span className="text-ash-400 text-xs font-normal uppercase tracking-wider">
-              {isOrg ? "Total Business Value" : "Total Stock Value"}
+              {isOrg ? "Total Value" : "Value of All Items"}
             </span>
             <div className="bg-mint-50 text-mint-600 p-2 rounded-xl border border-mint-100">
               <Package className="h-4 w-4" />
@@ -819,7 +819,7 @@ export default function Dashboard({
                     <div className="mt-3.5 pt-2 border-t border-dashed border-red-100/50 dark:border-red-900/10 flex items-baseline justify-between gap-1.5">
                       <span className="text-[9px] text-red-650/80 font-bold uppercase tracking-wider">Locked Money:</span>
                       <span className="text-xs font-extrabold text-red-650 dark:text-red-400 font-mono font-bold">
-                        {formatNaira(item.capitalLockedUp)}
+                        {formatNaira(item.capitalLockedUp || 0)}
                       </span>
                     </div>
                   </div>
@@ -843,14 +843,14 @@ export default function Dashboard({
         {/* SME Capital Card */}
         <div className="space-y-3 flex flex-col justify-between">
           <h2 className="text-xs sm:text-sm font-normal text-ash-505 uppercase tracking-wider">
-            {isOrg ? "Money Invested in the Business" : "Working Capital Breakdown"}
+            {isOrg ? "Money in Business" : "Money Used"}
           </h2>
           <div className="bg-white rounded-2xl p-5 border border-ash-200 shadow-xs relative overflow-hidden flex flex-col justify-between flex-grow">
             <div>
               <div className="flex items-center justify-between mb-3 pb-2 border-b border-ash-50">
                 <span className="text-ash-400 text-xs font-normal uppercase tracking-wider flex items-center gap-1.5">
                   <Package className="h-4 w-4 text-mint-500" />
-                  {isOrg ? "Business Investment" : "SME Working Operational Capital"}
+                  {isOrg ? "Business Investment" : "Money in Business"}
                 </span>
                 <span className="text-[10px] bg-mint-50 text-mint-750 px-2.5 py-1 rounded-full border border-mint-100 font-semibold uppercase font-mono">
                   {isOrg ? "Investment" : "Total Asset Root"}
@@ -871,13 +871,13 @@ export default function Dashboard({
               <div className="space-y-2 border-t border-ash-100 pt-3 mt-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-ash-500 font-light">
-                    {isOrg ? "Money spent on stock:" : "Inventory stock cost value:"}
+                    {isOrg ? "Money spent on stock:" : "Money spent on items:"}
                   </span>
                   <span className="font-semibold text-ash-800 font-mono">{formatNaira(totalInventoryCost)}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-ash-500 font-light">
-                    {isOrg ? "Running expenses:" : "Operating business expenses (OPEX):"}
+                    {isOrg ? "Running expenses:" : "Extra Spending:"}
                   </span>
                   <span className="font-semibold text-ash-800 font-mono">{formatNaira(totalExpensesVal)}</span>
                 </div>
@@ -889,14 +889,14 @@ export default function Dashboard({
         {/* Real Business Profit Loss Tracker */}
         <div className="space-y-3 flex flex-col justify-between">
           <h2 className="text-xs sm:text-sm font-normal text-ash-505 uppercase tracking-wider">
-            {isOrg ? "Profit & Loss" : "Performance Tracker"}
+            {isOrg ? "Profit & Loss" : "Money Tracker"}
           </h2>
           <div className="bg-white rounded-2xl p-5 border border-ash-200 shadow-xs relative overflow-hidden flex flex-col justify-between flex-grow">
             <div>
               <div className="flex items-center justify-between mb-3 pb-2 border-b border-ash-50">
                 <span className="text-ash-400 text-xs font-normal uppercase tracking-wider flex items-center gap-1.5">
                   <TrendingUp className="h-4 w-4 text-emerald-500" />
-                  {isOrg ? "Current Profit" : "Active Accounting Profit/Loss (P&L)"}
+                  {isOrg ? "Current Profit" : "Money Made or Lost"}
                 </span>
                 <span className={`text-[10px] px-2.5 py-1 rounded-full border border-slate-200/50 font-semibold uppercase font-mono ${netProfitVal >= 0 ? 'bg-emerald-50 text-emerald-755 border-emerald-100' : 'bg-red-50 text-red-755 border-red-100'}`}>
                   {isOrg ? (netProfitVal >= 0 ? 'SURPLUS' : 'DEFICIT') : (netProfitVal >= 0 ? 'NET GAIN' : 'NET LOSS')}
@@ -917,11 +917,11 @@ export default function Dashboard({
               <div className="space-y-2 border-t border-ash-100 pt-3 mt-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-ash-500 font-light">{isOrg ? "Money received:" : "Total Sales Revenues:"}</span>
-                  <span className="font-semibold text-emerald-600 font-mono">+{formatNaira(totalSalesVal)}</span>
+                  <span className="font-semibold text-emerald-600 font-mono">+{formatNaira(totalReceivedVal)}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-ash-505 font-light">{isOrg ? "Stock costs:" : "Cost of items sold (COGS):"}</span>
-                  <span className="font-semibold text-ash-800 font-mono">-{formatNaira(totalCostOfGoodsSold)}</span>
+                  <span className="font-semibold text-ash-800 font-mono">-{formatNaira(totalInventoryCost)}</span>
                 </div>
                 <div className="flex justify-between items-center text-xs text-red-500">
                   <span className="font-light">{isOrg ? "Running expenses:" : "Running Opex expenses:"}</span>
@@ -942,10 +942,10 @@ export default function Dashboard({
             </div>
             <div>
               <h3 className="font-display font-semibold text-ash-800 text-sm">
-                {isOrg ? "Expenses" : "Operating Expenses & Opex Ledger"}
+                {isOrg ? "Expenses" : "Spending List"}
               </h3>
               <p className="text-[10px] text-ash-400">
-                {isOrg ? "Record transport, rent, electricity, salaries, feeding costs, and other daily expenses." : "Record transport costs, feed/poultry inputs, rent, utility light, and salary."}
+                {isOrg ? "Record transport, rent, electricity, salaries, feeding costs, and other daily expenses." : "Record transport, rent, light, and salary spending."}
               </p>
             </div>
           </div>
@@ -955,7 +955,7 @@ export default function Dashboard({
             onClick={() => setAddExpenseModalOpen(true)}
             className="self-start sm:self-auto bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 cursor-pointer shadow-3xs transition-transform hover:-translate-y-0.5"
           >
-            {isOrg ? "➕" : <Plus className="h-4 w-4" />}
+            {isOrg ? "+" : <Plus className="h-4 w-4" />}
             {isOrg ? "Add Expense" : "Record Running Expense"}
           </button>
         </div>
@@ -1025,7 +1025,7 @@ export default function Dashboard({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
               <h2 className="text-sm font-display font-normal text-ash-800 uppercase tracking-tight">
-                {isOrg ? "Weekly Sales & Profit" : "Weekly Trading Trend"}
+                {isOrg ? "Weekly Sales & Profit" : "Money Moves This Week"}
               </h2>
               <p className="text-xs text-ash-400 font-light">
                 {isOrg ? "See how much you sold and how much profit you made this week." : "Track current week's sales volume vs. computed profit margins"}
@@ -1079,7 +1079,7 @@ export default function Dashboard({
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-ash-200 shadow-xs flex flex-col justify-between gap-6">
           <div>
             <h2 className="text-xs font-normal text-ash-400 uppercase tracking-wider mb-4">
-              {isOrg ? "Stock Overview" : "Stock Velocity & Highlights"}
+              {isOrg ? "Stock Overview" : "Highlights"}
             </h2>
             
             <div className="space-y-3 sm:space-y-4">
@@ -1089,7 +1089,7 @@ export default function Dashboard({
                 </div>
                 <div>
                   <p className="text-[9px] text-ash-400 uppercase tracking-wider">
-                    {isOrg ? "Best-Selling Product" : "Fastest Moving Product"}
+                    {isOrg ? "Best-Selling Product" : "Fastest Selling Item"}
                   </p>
                   <h4 className="font-normal text-xs sm:text-sm text-ash-900 truncate max-w-[180px]">{primaryMovingProduct}</h4>
                 </div>
@@ -1101,10 +1101,10 @@ export default function Dashboard({
                 </div>
                 <div>
                   <p className="text-[9px] text-ash-400 uppercase tracking-wider">
-                    {isOrg ? "Items in Stock" : "Available Stock Count"}
+                    {isOrg ? "Items in Stock" : "Total Items Now"}
                   </p>
                   <h4 className="font-normal text-xs sm:text-sm text-ash-900">
-                    {products.reduce((acc, p) => acc + p.quantity, 0)} {isOrg ? "items currently available" : "Units in store"}
+                    {products.reduce((acc, p) => acc + p.quantity, 0)} {isOrg ? "items currently available" : "Items in shop"}
                   </h4>
                 </div>
               </div>
@@ -1115,10 +1115,10 @@ export default function Dashboard({
                 </div>
                 <div>
                   <p className="text-[9px] text-ash-400 uppercase tracking-wider">
-                    {isOrg ? "Customers Owing" : "Outstanding Debtors"}
+                    {isOrg ? "Customers Owing" : "Money Owed to Me"}
                   </p>
                   <h4 className="font-normal text-xs sm:text-sm text-ash-900">
-                    {sales.filter(s => s.balanceDebt > 0).length} {isOrg ? "customers owe payments" : "Customers owe balance"}
+                    {sales.filter(s => s.balanceDebt > 0).length} {isOrg ? "customers owe payments" : "Clients owing"}
                   </h4>
                 </div>
               </div>
@@ -1134,10 +1134,10 @@ export default function Dashboard({
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-ash-200 shadow-xs flex flex-col">
           <div className="mb-4">
             <h2 className="text-sm font-display font-semibold text-ash-800 uppercase tracking-tight">
-              {isOrg ? "Stock Categories" : "Category Distribution Share"}
+              {isOrg ? "Stock Categories" : "Items by Group"}
             </h2>
             <p className="text-xs text-ash-400 font-light">
-              {isOrg ? "See how your products are divided across different categories." : "Capital investment weight (value of stock at cost price) across store categories"}
+              {isOrg ? "See how your products are divided across different categories." : "How your money is shared between groups"}
             </p>
           </div>
           
@@ -1211,10 +1211,10 @@ export default function Dashboard({
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-ash-200 shadow-xs flex flex-col font-sans">
           <div className="mb-4">
             <h2 className="text-sm font-display font-semibold text-ash-800 uppercase tracking-tight">
-              {isOrg ? "Highest Stock Items" : "Top Stock Levels"}
+              {isOrg ? "Highest Stock Items" : "Most Stock Items"}
             </h2>
             <p className="text-xs text-ash-400 font-light">
-              {isOrg ? "Products with the largest quantities currently available." : "Inventory count of highest stocked item lines in physical shelf spaces"}
+              {isOrg ? "Products with the largest quantities currently available." : "Items you have most in your shop"}
             </p>
           </div>
           
@@ -1271,10 +1271,10 @@ export default function Dashboard({
           <div>
             <h2 className="text-xs sm:text-sm font-normal text-ash-505 uppercase tracking-wider flex items-center gap-2">
               <BookOpen className="h-4.5 w-4.5 text-mint-500" />
-              {isOrg ? "AI Business Report" : "Automated Business Report (AI-Powered)"}
+              {isOrg ? "AI Business Report" : "Smart Report (AI)"}
             </h2>
             <p className="text-xs text-ash-400 mt-1 font-light">
-              {isOrg ? "Get simple business advice and performance summaries based on your records." : "Analyze profit matrices and margin optimization suggestions tailored for local trade."}
+              {isOrg ? "Get simple business advice and performance summaries based on your records." : "Get simple advice on your sales and items."}
             </p>
           </div>
           <button
@@ -1290,7 +1290,7 @@ export default function Dashboard({
             ) : (
               <>
                 <Sparkles className="h-4 w-4 text-white" />
-                {isOrg ? "Generate Report" : "Compile Business Report"}
+                {isOrg ? "Generate Report" : "Make Report"}
               </>
             )}
           </button>

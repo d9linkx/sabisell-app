@@ -228,7 +228,12 @@ export default function App() {
                 whatsappGreeting: defaultBusiness.whatsappGreeting,
                 whatsappReminderSuffix: defaultBusiness.whatsappReminderSuffix,
                 updatedAt: new Date().toISOString()
-              }
+              },
+              [
+                Permission.read(Role.user(currentUser.$id)),
+                Permission.update(Role.user(currentUser.$id)),
+                Permission.delete(Role.user(currentUser.$id))
+              ]
             );
           }
         }
