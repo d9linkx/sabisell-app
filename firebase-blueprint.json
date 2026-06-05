@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "UserProfile stores owner and business configurations and link to physical inventory/sales",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "description": "Full name of the owner" },
+        "phone": { "type": "string", "description": "Owner whatsapp/sms phone number" },
+        "email": { "type": "string", "description": "Email address of the business owner" },
+        "avatarText": { "type": "string", "description": "SME owner initials for the UI" },
+        "businessName": { "type": "string", "description": "Custom Sabisell shop name" },
+        "category": { "type": "string", "description": "Trading category" },
+        "address": { "type": "string", "description": "Shop physical/market address" },
+        "currency": { "type": "string", "description": "Currency used in transactions" },
+        "whatsappGreeting": { "type": "string", "description": "Custom greeting header template" },
+        "whatsappReminderSuffix": { "type": "string", "description": "Custom payment invoice signoff note" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last settings update timestamp" }
+      },
+      "required": ["fullName", "email", "businessName"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Sabisell individual retail or wholesale inventory products",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique Client generated or Firestore ID" },
+        "userId": { "type": "string", "description": "Owner userId who created this item" },
+        "name": { "type": "string", "description": "Store stock item name" },
+        "sku": { "type": "string", "description": "Stock Keep Unit identifier" },
+        "stockLevel": { "type": "integer", "description": "Available items count" },
+        "buyingPrice": { "type": "number", "description": "SME buying cost per unit" },
+        "sellingPrice": { "type": "number", "description": "Customer standard selling price" },
+        "alertLevel": { "type": "integer", "description": "Low quantity notifications threshold" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "stockLevel", "sellingPrice"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Individual sales ledger credit and debt accounting records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "quantity": { "type": "integer" },
+        "totalAmount": { "type": "number" },
+        "amountPaid": { "type": "number" },
+        "balanceDebt": { "type": "number" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "paymentStatus": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "productId", "quantity", "totalAmount"]
+    },
+    "BankAccount": {
+      "title": "BankAccount",
+      "description": "Trade bank accounts active for SMS and direct payment settling",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "bankName": { "type": "string" },
+        "accountNumber": { "type": "string" },
+        "accountName": { "type": "string" },
+        "isDefault": { "type": "boolean" }
+      },
+      "required": ["userId", "bankName", "accountNumber", "accountName"]
+    },
+    "DirectPaymentRecord": {
+      "title": "DirectPaymentRecord",
+      "description": "Recorded bank transfer verification payment receipts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "amount": { "type": "number" },
+        "receivingBank": { "type": "string" },
+        "referenceNotes": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "customerName", "amount", "receivingBank", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Business settings and account info scoped per user login"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Global list of inventory items secured by userId ownership fields"
+    },
+    "/sales/{saleId}": {
+      "schema": "Sale",
+      "description": "Global list of physical ledger entries secured by userId ownership fields"
+    },
+    "/bankAccounts/{accountId}": {
+      "schema": "BankAccount",
+      "description": "Available payment methods with user scoped write permissions"
+    },
+    "/paymentRecords/{recordId}": {
+      "schema": "DirectPaymentRecord",
+      "description": "Settled debt payment transactions ledger items scoped to owner profile"
+    }
+  }
+}

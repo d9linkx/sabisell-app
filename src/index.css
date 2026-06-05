@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* ChatGPT neutral palette values */
+  --color-ash-fb: #ffffff;
+  --color-ash-50: #f9f9fc;      /* Soft elegant light-grey page canvas */
+  --color-ash-100: #ececee;     /* Exquisite thin border lines */
+  --color-ash-200: #e3e3e7;     /* High-fidelity border lines */
+  --color-ash-300: #cdcdcf;
+  --color-ash-400: #9b9b9b;     /* ChatGPT secondary text description lines */
+  --color-ash-500: #676767;
+  --color-ash-600: #424242;
+  --color-ash-700: #2f2f2f;     /* ChatGPT medium theme elements */
+  --color-ash-800: #212121;     /* ChatGPT secondary black background */
+  --color-ash-900: #0d0d0d;     /* ChatGPT master dark backgrounds & typography */
+
+  /* Vibrant Dark Pink & Black Brand Pairings */
+  --color-mint-50: #fff1f2;     /* Dark Pink/Rose Soft Accent 50 */
+  --color-mint-100: #ffe4e6;    /* Dark Pink/Rose Soft Accent 100 */
+  --color-mint-200: #fecdd3;    /* Dark Pink/Rose Accent 200 */
+  --color-mint-300: #fda4af;    /* Dark Pink/Rose Accent 300 */
+  --color-mint-400: #db2777;    /* Vibrant Brand Primary Accent (Pink 600) */
+  --color-mint-500: #be185d;    /* Dark Pink Accent 500 (Pink 700 Contrast) */
+  --color-mint-600: #9d174d;    /* Extra Deep Dark Pink 600 */
+  --color-mint-700: #831843;    /* Rich Burgundy Dark Accent 700 */
+
+  /* Map standard tailwind green colors to our gorgeous pink-palette to dynamically style sub-components too! */
+  --color-green-50: #fff1f2;
+  --color-green-100: #ffe4e6;
+  --color-green-200: #fecdd3;
+  --color-green-300: #fda4af;
+  --color-green-400: #db2777;
+  --color-green-500: #be185d;
+  --color-green-600: #9d174d;
+  --color-green-700: #831843;
+  --color-green-800: #5c0626;
+  --color-green-900: #4c051e;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-ash-50);
+  color: var(--color-ash-900);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark {
+  --color-ash-fb: #000000;
+  --color-ash-50: #000000;
+  --color-ash-100: #22242a;
+  --color-ash-200: #2e313a;
+  --color-ash-300: #3f4350;
+  --color-ash-400: #888d9c;
+  --color-ash-500: #aab0c0;
+  --color-ash-600: #ccd1df;
+  --color-ash-700: #e2e6f0;
+  --color-ash-800: #f1f4fb;
+  --color-ash-900: #ffffff;
+}
+
+/* Map bg-white to dark gray on dark class */
+.dark .bg-white, 
+.dark header, 
+.dark aside, 
+.dark #landing-container header {
+  background-color: var(--color-ash-fb) !important;
+}
+
+.dark #landing-container, 
+.dark #landing-container section, 
+.dark #landing-container footer {
+  background-color: var(--color-ash-50) !important;
+  color: var(--color-ash-900) !important;
+}
+
+.dark .text-slate-900,
+.dark .text-gray-900,
+.dark .text-ash-900,
+.dark .text-slate-950,
+.dark .text-gray-950,
+.dark .text-ash-950,
+.dark .text-slate-800,
+.dark .text-gray-800,
+.dark .text-ash-850,
+.dark .text-ash-800,
+.dark .text-slate-700,
+.dark .text-gray-700,
+.dark .text-ash-750,
+.dark .text-ash-705,
+.dark .text-ash-700 {
+  color: var(--color-ash-900) !important;
+}
+
+.dark .text-slate-500,
+.dark .text-slate-400,
+.dark .text-gray-500,
+.dark .text-gray-400,
+.dark .text-ash-450,
+.dark .text-ash-400,
+.dark .text-ash-500,
+.dark .text-ash-550,
+.dark .text-ash-600,
+.dark .text-ash-650 {
+  color: var(--color-ash-400) !important;
+}
+
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border-ash-100,
+.dark .border-ash-150,
+.dark .border-ash-200 {
+  border-color: var(--color-ash-100) !important;
+}
+
+/* Red Danger/Alert mappings inside dark mode settings */
+.dark .border-red-100,
+.dark .border-red-200,
+.dark .border-red-200\/60,
+.dark .border-red-200\/55 {
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+.dark .bg-red-50,
+.dark .bg-red-50\/50,
+.dark .bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  color: #fca5a5 !important;
+}
+
+.dark .text-red-500,
+.dark .text-red-600,
+.dark .text-red-650,
+.dark .text-red-700,
+.dark .text-red-705 {
+  color: #f87171 !important;
+}
+
+/* Custom login and signup toggles on AuthScreen */
+.dark #auth-signin-toggle-btn,
+.dark #auth-signup-toggle-btn {
+  background-color: transparent !important;
+  color: var(--color-ash-400) !important;
+}
+
+.dark #auth-signin-toggle-btn:not(.text-ash-500),
+.dark #auth-signup-toggle-btn:not(.text-ash-500) {
+  background-color: var(--color-ash-200) !important;
+  color: var(--color-ash-900) !important;
+}
+
+.dark .bg-slate-50,
+.dark .bg-gray-50,
+.dark .bg-ash-50,
+.dark .bg-slate-100,
+.dark .bg-gray-100,
+.dark .bg-ash-100 {
+  background-color: var(--color-ash-100) !important;
+  color: var(--color-ash-900) !important;
+}
+
+.dark input, 
+.dark select, 
+.dark textarea {
+  background-color: var(--color-ash-100) !important;
+  color: var(--color-ash-900) !important;
+  border-color: var(--color-ash-200) !important;
+}
+
+.dark table th {
+  background-color: var(--color-ash-100) !important;
+  color: var(--color-ash-900) !important;
+}
+
+.dark table tr:hover {
+  background-color: var(--color-ash-200) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600 !important; /* Slightly thick for headers as requested */
+  letter-spacing: -0.02em;
+}
+
+.mono-all {
+  font-family: var(--font-mono);
+}
+
+/* --- Dark Pink and Black Brand UX Overrides --- */
+
+/* Ensure text on all dark pink brand backgrounds is highly-legible white */
+.bg-mint-400, 
+.bg-mint-450,
+.bg-mint-500,
+.bg-green-400,
+.bg-green-500,
+button.bg-mint-400,
+button.bg-mint-550,
+button.bg-mint-500,
+button.bg-green-450,
+button.bg-green-400,
+button.bg-green-500,
+a.bg-mint-400,
+a.bg-mint-500 {
+  color: #ffffff !important;
+  font-weight: 500 !important;
+}
+
+/* Ensure SVG icon strokes within brand pink accent backgrounds are white */
+.bg-mint-400 svg, 
+.bg-mint-450 svg,
+.bg-mint-500 svg,
+.bg-green-400 svg,
+.bg-green-500 svg,
+button.bg-mint-400 svg,
+button.bg-mint-450 svg,
+button.bg-mint-500 svg,
+button.bg-green-400 svg,
+button.bg-green-500 svg,
+.text-white .bg-mint-400 svg {
+  stroke: #ffffff !important;
+}
+
+/* Modern inputs and controls focus state adjustments */
+input:focus, select:focus, textarea:focus {
+  border-color: var(--color-mint-500) !important;
+  box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.15) !important;
+}
+
+/* Dark mode inputs override for smooth visual feedback */
+.dark input:focus, .dark select:focus, .dark textarea:focus {
+  box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.25) !important;
+}
+
+/* Beautiful modern card shadow profiles */
+.shadow-xs {
+  box-shadow: 0 4px 20px -2px rgba(13, 13, 13, 0.02), 0 2px 8px -1px rgba(13, 13, 13, 0.02) !important;
+  border-width: 1px !important;
+  border-color: rgba(227, 227, 231, 0.8) !important;
+}
+
+.dark .shadow-xs {
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.4), 0 2px 10px -1px rgba(0, 0, 0, 0.3) !important;
+  border-color: rgba(34, 36, 42, 0.6) !important;
+}
+
+/* Make micro-animations on interactive highlights feel ultra-smooth */
+button, select, input, a {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

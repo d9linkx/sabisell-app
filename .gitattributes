@@ -1,0 +1,13 @@
+# Mark generated and package lock files to prevent GitHub "failed to load file differences" errors
+package-lock.json linguist-generated=true
+package-lock.json -diff
+
+# Ignore local database simulation states
+sabisell_db.json linguist-generated=true
+sabisell_db.json -diff
+sabisell_db.json* -diff
+
+# Mark compiled dist/ assets as generated to prevent diff congestion
+dist/** linguist-generated=true
+dist/** -diff
+server.js -diff

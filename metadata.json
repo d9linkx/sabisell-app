@@ -1,0 +1,6 @@
+{
+  "name": "Sabisell",
+  "description": "Ledger and inventory manager for Nigerian small business owners with voice-command recording, profit brainstorming, sales charts, and contact linking.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
