@@ -1,8 +1,6 @@
 import express from "express";
-import path from "path";
 import dotenv from "dotenv";
 import { GoogleGenAI, Type } from "@google/genai";
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -259,19 +257,4 @@ app.post("/api/bank/parse-alert", async (req, res) => {
     res.status(500).json({ error: "Bank alert parsing failed" });
   }
 });
-
-// -------------------------------------------------------------
-// Vercel Static Serving (Fallback for non-API routes)
-// -------------------------------------------------------------
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, "../dist")));
-
-app.get("*", (req, res) => {
-  if (!req.path.startsWith("/api/")) {
-    res.sendFile(path.join(__dirname, "../dist/index.html"));
-  }
-});
-
 export default app; // Correct export for Vercel
