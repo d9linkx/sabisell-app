@@ -6,7 +6,9 @@ import {
   getAppwriteStatus, 
   APPWRITE_DATABASE_ID,
   APPWRITE_USERS_COLLECTION_ID,
-  setAppwriteSession
+  setAppwriteSession,
+  Permission,
+  Role
 } from '../appwrite';
 import { OwnerProfile, BusinessProfile, isOrganizationCategory, getOrganizationTerminology } from '../types';
 import { SabisellLogo } from './SabisellLogo';
@@ -125,7 +127,12 @@ export default function AuthScreen({ onAuthSuccess, onBackToHome }: AuthScreenPr
               whatsappGreeting: initialBusiness.whatsappGreeting,
               whatsappReminderSuffix: initialBusiness.whatsappReminderSuffix,
               updatedAt: new Date().toISOString()
-            }
+            },
+            [
+              Permission.read(Role.user(createdUser.$id)),
+              Permission.update(Role.user(createdUser.$id)),
+              Permission.delete(Role.user(createdUser.$id))
+            ]
           );
         } catch (dbErr: any) {
           console.warn('[Appwrite DB Init Profile Error during signup (non-blocking)]:', dbErr);
@@ -212,7 +219,12 @@ export default function AuthScreen({ onAuthSuccess, onBackToHome }: AuthScreenPr
                 whatsappGreeting: finalBusiness.whatsappGreeting,
                 whatsappReminderSuffix: finalBusiness.whatsappReminderSuffix,
                 updatedAt: new Date().toISOString()
-              }
+              },
+              [
+                Permission.read(Role.user(userDetails.$id)),
+                Permission.update(Role.user(userDetails.$id)),
+                Permission.delete(Role.user(userDetails.$id))
+              ]
             );
           } catch (createErr) {
             console.warn('[AuthScreen login default profile creation failure]:', createErr);
