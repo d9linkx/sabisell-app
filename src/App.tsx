@@ -834,7 +834,7 @@ export default function App() {
 
   const navTabs = [
     { id: 'dashboard', label: 'Home', icon: <LayoutDashboard className="h-4 w-4" /> },
-    { id: 'inventory', label: 'My Stock', icon: <Package className="h-4 w-4" /> },
+    { id: 'inventory', label: 'Inventory', icon: <Package className="h-4 w-4" /> },
     { id: 'sales', label: 'Sales', icon: <ShoppingCart className="h-4 w-4" /> },
     { id: 'voice', label: 'Voice Control', icon: <Mic className="h-4 w-4 text-green-600 animate-pulse" /> },
     { id: 'chat', label: 'Ask for Help', icon: <HelpCircle className="h-4 w-4" /> },
