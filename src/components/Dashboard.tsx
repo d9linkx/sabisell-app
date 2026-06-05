@@ -383,7 +383,7 @@ export default function Dashboard({
               </>
             ) : (
               <>
-                Manage Your <br className="hidden sm:inline" /> <span className="text-pink-600 dark:text-pink-400 font-bold">Sales & Items</span>
+                Manage Your Sales & Inventory, All Inside One Dashboard</span>
               </>
             )}
           </h1>
